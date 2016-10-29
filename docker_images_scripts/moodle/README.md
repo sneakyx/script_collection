@@ -1,5 +1,5 @@
 # Contains:
-## container_control.sh  
+## moodle_control.sh  
 This file can start and stop the jhardison/moodle container and a mysql container, links both together, sets the right variables and exports the folders 
 
 	/var/moodledata   

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #########################################################################
-#                          container_control.sh                         #
+#                          moodle_control.sh                         #
 #       this script makes it easier to handle moodle containers         #
-# usage:        container_control.sh $name $pass1 $pass2 $port $action  #
+# usage:        moodle_control.sh $name $pass1 $pass2 $port $action  #
 # Paramters:                                                            #
 #               $action create/stop/delete/start/update/full-delete     #
 #                       (full-delete deletes also database -all Your    #
@@ -22,7 +22,7 @@
 
 if  [ -z $2 ]  ; then
         echo >&2 'error: missing parameters'
-        echo >&2 "usage: container_control.sh $1 name"
+        echo >&2 "usage: moodle_control.sh $1 name"
         exit 1
 fi
 case "$1" in
@@ -99,6 +99,6 @@ case "$1" in
 	;;
 	*)	
 		echo >&2 'error: missing parameters'
-        echo >&2 'usage: container_control.sh start/stop/update/create/delete/full-delete $name'
+        echo >&2 'usage: moodle_control.sh start/stop/update/create/delete/full-delete $name'
         	
 esac
