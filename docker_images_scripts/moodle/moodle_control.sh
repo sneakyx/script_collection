@@ -12,7 +12,8 @@
 #               $name   exchange with Your favorite name   (needed)     #
 #               $pass1  password for mysql admin    \   only used       #
 #               $pass2  password for moodle user >  with parameter      #
-#               $port   which port should be used?  /   create!         #
+#               $port   which port should be used?   /   create!        #
+#               $adress which adress is moodle URL? /                   #
 #-----------------------------------------------------------------------#
 #      V 2016-10-30-16-33  made by sneaky(x) or Rothaar Systems         #
 #                        dedicated to my family                         #
@@ -69,9 +70,9 @@ case "$1" in
 	
 	create)
 		# creates new images 
-		if  [ -z $3 ] && [ -z $4 ] && [ -z $5 ]; then
+		if  [ -z $3 ] && [ -z $4 ] && [ -z $5 ] && [ -z $6] ; then
 	        echo >&2 'error: missing parameters'
-	        echo >&2 'usage: build_new_container.sh create $name $root-pass $pass2 $port'
+	        echo >&2 'usage: build_new_container.sh create $name $root-pass $pass2 $port $address'
 	        exit 1
 		fi	
 		# creating folders
@@ -91,6 +92,7 @@ case "$1" in
 		docker run -d \
 			--name moodle-$2 \
 			-p $5:80 \
+			-e MOODLE_URL=$5 
 			-v /home/moodle/$2/moodledata:/var/moodledata \
 			-v /home/moodle/$2/html:/var/www/html \
 			--link mysql-moodle-$2:mysql \
