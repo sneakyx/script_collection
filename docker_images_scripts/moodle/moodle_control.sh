@@ -1,9 +1,8 @@
 #!/bin/bash
-
 #########################################################################
-#                          moodle_control.sh                         #
+#                          moodle_control.sh                            #
 #       this script makes it easier to handle moodle containers         #
-# usage:        moodle_control.sh $name $pass1 $pass2 $port $action  #
+# usage:        moodle_control.sh $name $pass1 $pass2 $port $action     #
 # Paramters:                                                            #
 #               $action create/stop/delete/start/update/full-delete     #
 #                       (full-delete deletes also database -all Your    #
@@ -15,7 +14,7 @@
 #               $port   which port should be used?   /   create!        #
 #               $adress which adress is moodle URL? /                   #
 #-----------------------------------------------------------------------#
-#      V 2016-10-30-16-33  made by sneaky(x) or Rothaar Systems         #
+#      V 2016-10-30-21-12  made by sneaky(x) or Rothaar Systems         #
 #                        dedicated to my family                         #
 #                   released under Apache 2.0 licence                   #
 #               http://www.apache.org/licenses/LICENSE-2.0              #
@@ -23,7 +22,7 @@
 
 if  [ -z $2 ]  ; then
         echo >&2 'error: missing parameters'
-        echo >&2 "usage: moodle_control.sh $1 name"
+        echo >&2 "usage: moodle_control.sh create/stop/delete/start/update/full-delete $name"
         exit 1
 fi
 case "$1" in
@@ -62,7 +61,7 @@ case "$1" in
 		fi	
 
 		docker pull mysql
-		docker pull sneaky/moodle
+		docker pull sneaky/moodle-test
 		docker stop mysql-moodle-$2 moodle-$2
 		docker rm mysql-moodle-$2 moodle-$2
 		
@@ -70,7 +69,7 @@ case "$1" in
 	
 	create)
 		# creates new images 
-		if  [ -z $3 ] && [ -z $4 ] && [ -z $5 ] && [ -z $6] ; then
+		if  [ -z $6 ] ; then
 	        echo >&2 'error: missing parameters'
 	        echo >&2 'usage: build_new_container.sh create $name $root-pass $pass2 $port $address'
 	        exit 1
@@ -92,11 +91,10 @@ case "$1" in
 		docker run -d \
 			--name moodle-$2 \
 			-p $5:80 \
-			-e MOODLE_URL=$5 
+			-e MOODLE_URL=$6 \
 			-v /home/moodle/$2/moodledata:/var/moodledata \
-			-v /home/moodle/$2/html:/var/www/html \
 			--link mysql-moodle-$2:mysql \
-			jhardison/moodle
+			sneaky/moodle-test
 		echo container was created/ updated
 	;;
 	*)	
